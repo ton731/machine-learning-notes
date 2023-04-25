@@ -33,4 +33,3 @@
 
 ### SegFormer (2021)
 - **SegFormer: Simple and Efficient Design for Semantic Segmentation with Transformers (Citation: 849)**
-- aaa

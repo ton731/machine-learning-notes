@@ -46,6 +46,7 @@
 - 在ML中常把$log_2$換成自然常數$e$，得Entropy $H(p) = E_{x \sim p}[-\operatorname{ln} p(x)]$，其實就只是把度量單位從bits換成nats，方便計算。
 - Uniform distribution可以使得entropy最大，代表uniform distribution是隨機性最大的分佈，也是資訊量最大的分佈。（在有給定variance下normal distribution才是有最大entropy）
 - 小結：Entropy中$-log$扮演編碼的角色，決定需要用幾個bits來傳輸事件，而entropy意義是這套編碼運用到系統的bits期望值。Shannon理論說$-logp(x)$已經是最有效率的編碼，所以Entropy是bits期望值的下界。
+- ref: https://ycc.idv.tw/deep-dl_2.html#anchor
 
 ### Cross Entropy
 - 在classification問題中，cross entropy被定義為$-y \operatorname{ln}(q) - (1-y) \operatorname{ln}(1-q)$，可以從maximum likelihood來推導。但其實有更一般的定義: $Cross Entropy: H(p,q) = E_{x \sim p} [-\operatorname{ln}q(x)]$，其中$p(x)$為目標分佈，想要學習的未知分佈，而$q(x)$為model的輸出分佈。
@@ -75,29 +76,16 @@
 - 對於每個預測的target class，假設現在已經有model的bounding box & class & confidence prediction了，我們可以設定一個IoU threshold來篩選掉不好的prediction，接著我們可以用confidence的高低來排序每個prediction。在排序好之後，主要關注累積的precision和recall。當計算confidence第$k$名時，recall因為只考慮$1$~$k$總共答對幾個正確的case，所以累積起來會是一直增加的。而precision則是考慮前$k$的case的預測裡面有幾個是正確的，所以累積起來會有高有低。最後將recall(x) vs. precision (y)的圖畫出來，zigzag曲線就是average precision (AP)。
 - AP@.50代表IoU threshold設定為0.5下的AP，AP@.75則代表threshold設在0.75，會比AP@.50更嚴苛。
 
+### FID (Fréchet Inception Distance)
+- FID衡量了生成的圖片到底是好還是壞。大概念來說，他先拿了很多real image和geenrated image，接著把他丟進一個已經train好的Inception V3 CNN model，把每一個image的feature map取出來。接著他假設real image的features和generated image的features各自呈現normal distribution，於是他利用Frecchet Distance去計算兩個distribution的距離，距離越小代表geenrated image和real image越像。因此FID score越低越好。FID score的評斷標準視覺上跟人類的尺度蠻像的。
+- FID缺點：
+    - 用預先訓練好的CNN，可能無法很好捕捉到所有feature
+    - 需要大量樣本，導致計算成本高且緩慢
 
 
 
-
-### Batch Normalization
-
-### Layer Normalization
-
-### KL Divergence
-
-### Convex
+## 寫得很好的blog
+- [YC Note](https://ycc.idv.tw/)
+- [Odie](https://odie2630463.github.io/archives/)
 
 
-
-
-
-
-### 數學運算
-- $H = -1 \operatorname{log_2}1=0$
-- $H = -\frac{1}{2}\operatorname{log_2}\frac{1}{2} -\frac{1}{2}\operatorname{log_2}\frac{1}{2} = 1$
-- $H = -\frac{1}{4}\operatorname{log_2}\frac{1}{4} -\frac{1}{4}\operatorname{log_2}\frac{1}{4} -\frac{1}{4}\operatorname{log_2}\frac{1}{4} -\frac{1}{4}\operatorname{log_2}\frac{1}{4} = 2$
-- $\operatorname{log_2}p(x) \rightarrow \operatorname{ln}p(x)$
-- $p(x)$, $q(x)$
-- $H(p, p)$
-- $H(p,p)=-0.35\operatorname{log_2}0.35 -0.40\operatorname{log_2}0.40 -0.05\operatorname{log_2}0.05 -0.20\operatorname{log_2}0.20=1.739$
-- $H(p,q)=-0.35\operatorname{log_2}0.32 -0.40\operatorname{log_2}0.38 -0.05\operatorname{log_2}0.14 -0.20\operatorname{log_2}0.16=1.804$
