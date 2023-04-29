@@ -99,5 +99,68 @@
 
 
 
+### Model Monitoring
 
+- **Monitoring Targets in ML**
+    - Basics: **Input and output monitoring**
+        - Model input distribution
+            - Does distributions align with what you've seen in the past?
+        - Model prediction distribution
+            - Unsupervised: Compare model prediction distributions with statistical tests (median, mean, standard deviation, min/max values)
+            - Supervised: When labels are available
+        - Model versions
+        - Input/prediction correlation
+    - **Operational Monitoring**
+        - Latency
+        - IO / Memory / Disk Utilization
+        - Sysyem Reliability (Uptime)
+        - Auditability
+
+- **Logging for ML Monitoring**
+    - **目標：Build observability**
+        - 從能夠開箱及用(out-of-the-box)的
+        logs, metrics, dashboards開始
+        - 加入agent來搜集、分析logs, metrics
+        - 加入一些log-based metrics來作為alert的基礎
+        - 用aggregated sinks & workspaces來centralize logs和monitoring
+        - 紀錄從request傳來的data作為之後新的training data
+    - Logging pros & cons
+        - Pros: 容易產生、可以提供valuable insight、專注在特定事件
+        - Cons: 過多logging會影響系統效能、log-based alerts可能代價昂貴
+
+- **What is Model Decay**
+    - **Model Decay**
+        - ML production operate的環境可能會隨時間變化，若model都是static且沒有改變，可能會離真實環境越來越遠。
+    - Model decay 原因
+        - Data Drift (Feature Drift): input的distribution改變
+        - Concept Drift: 同樣的input但output改變
+    - Detcting drift on time:
+        - Drift在系統會隨時間慢慢產生影響，若沒偵測到，會影響表現，因此要及早monitor & detect。
+
+- **Model Decay Detection**
+    - Detecting drift:
+        - 利用logged data, model predictions, ground truth (如果有的話)來計算統計上的特徵。可以在dashboard畫個圖來方便觀察。
+        - 有一些library可以detect drift: TensorFlow Data Validation, Scikit-multiflow library
+
+- **Ways to Mitigate Model Decay**
+    - 如果已經偵測到decay，我們可以：
+        - 看看training data裡面哪些部分還是正確的（如果可以）
+        - 保留好data，丟掉壞data，和增加新data
+        - 丟掉某個時間以前的data，然後加入新data
+        - 直接重新產生新dataset
+    - Fine Tune, or Start Over?
+        - 都可以，都直得試試，不過也要看有多少新的labeled data。
+    - Model Re-Training Policy
+        - On-Demaind: 人工去re-train
+        - On a Schedule: 如每天、每週、每個月
+        - Availbility of New Training Data: 當對某種特定data有特別需求
+    - Redesign Data Processing Steps and Model Architecture
+        - 當decay超過可接受程度時，可以考慮崇熙設計整個pipeline，如feature engineering, feature selection，model architecture等。
+
+- **Privacy Issue**
+    - 許多規範對用戶的隱私進行規範，有兩個常見的做法：Anonymization, Pseudonymisation。
+    - Anonymization: 對data進行irreversible的transform，使得就算是負責ananymization的team都無法辨認出哪個data是哪個user的。
+    - Pseudonymisation：將data裡面有user便是資訊的部分，如email, name隨機用一些別名、化名方式來取代。
+
+    
 
