@@ -19,6 +19,16 @@
 - `docker-compose ls`
 
 
+### Example
+- Suppose now we have a voting app (python), which will connect a in-memory DB (redis), then send the voting options to the backend worker (.NET), then save the processed result in the database (Postgres), then send it to another web app for showing the result (node js).
+- If we use original docker commands, we have to use:
+    - `docker run -d --name=redis redis`
+    - `docker run -d --name=db postgres:9.4 --link db:db result-app`
+    - `docker run -d --name=vote -p 5000:80 --link redis:redis voting-app`
+    - `docker run -d --name-result -p 5001:80`
+    - `docker run -d --name=worker --link db:db --link redis:redis worker`
+
+
 ### Adding Image Building to Compose file
 - Compose can also build your custom images
 - Will build them with `docker-compose up` if not found in cache

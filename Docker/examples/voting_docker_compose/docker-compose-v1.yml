@@ -1,0 +1,34 @@
+# This is the version 1 docker compose, in this version,
+# networks are all set with bridge, and you should use
+# links to connect them.
+
+
+redis:
+  image: redis
+
+db:
+  image: postgres:9.4
+
+vote:
+  # If voting-app image already existed, we can simply use image: voting-app,
+  # but if is not build or doesn't exist yet, we can use build: ./vote, 
+  # where ./vote is the directory of the voting-app with the Dockerfile existed
+  # image: voting-app
+  build ./vote
+  ports:
+    - 5000:80
+  links:
+    - redis
+
+result:
+  image: result-app
+  ports:
+    - 5001:80
+  links:
+    - db
+
+worker:
+  image: worker
+  links:
+    - redis
+    - db

@@ -1,11 +1,12 @@
 ### Docker Networks: CLI Management of Virtual Networks
+- There are three networks in docker: bridge, none, and host. All container are assigned with bridge by default if not assigned with other. Bridge is a private network that containers in Docker can find each selves with bridge network, but cannot be find from outside. The host network can be found outside. The none network cannot be found from others.
 - `docker network ls`
     - show networks
     - network bridge: default Docker virtual network, which is NAT'ed behind the HOST IP
     - network host: it gains performance by skipping virtual networks but sacrificies security of container model
 - `docker network inspect <network-name>`
     - inspect the network
-- `docker network create my_app_net>`
+- `docker network create <my_app_net>`
     - spawns a new virtual network for you to attach containers to 
     - it will also use the 'bridge' driver
     - network driver: built-in or 3rd party extensions that give you virtual network features
@@ -21,7 +22,7 @@
 
 
 ### DNS and how Containers find each other
-- Static IP's and using IP's for talking to containers is an anti-pattern. Because when you stop and restart the container, the IP may change. Do your best to avoid it.
+- Static IP's and using IP's for talking to containers is an anti-pattern. Because when you stop and restart the container, the IP may change, so it's not a good way to find other containers in Docker.
 - DNS naming is the solution. Docker uses the container names as the equivalent of a host name for containers talking to each other.
 - `docker container run -d --name nginx1 --network my_app_net nginx:alpine`
 - `docker container run -d --name nginx2 --network my_app_net nginx:alpine`

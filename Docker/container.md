@@ -45,9 +45,14 @@
 - `docker container start` start an existing stopped one
 
 
+### Inspect
+- `docker inspect <container name>`
+    - shows the detail information of the container
+
+
 ### Logs
 - `docker container logs <container name>`
-    - show logs for a specific container
+    - shows logs for a specific container
 
 
 ### Process Monitoring

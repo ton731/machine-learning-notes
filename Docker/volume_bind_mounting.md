@@ -5,7 +5,7 @@
 - Bind Mounts: link container path to host path
 
 
-### Volumes
+### Volume Mount
 - volume will still live even the container is removed, like mysql
 - `docker volume ls`
 - `docker volume inspect <volume-name>`
@@ -15,17 +15,19 @@
     - specify the volume name to be mysql
     - this mysql-db volume will still exist after container mysql is removed
     - next time when creating a new container, specifying mysql-db as the volume can let us get the same volume
+- it can be written in another way:
+    - `docker run --mount type=bind,source=/data/mysql,target=/var/liv/mysql mysql`
 - `docker volume create`
     - required to do this before `docker run` to use custom drivers and labels
     - most of the time we can just create volume in the `docker container run` process
 
 
-### Bind Mounting
+### Bind Mount
 - Maps a host file or directory to a container file or directory
 - Basically just two locationns pointint to the same file(s)
 - Again, skip UFS, and host files overwrite any in container
 - Can't use in Dockerfile specification, must be at `container run`
-    - `docker container run -v /Users/tony/stuff:/path/container`
+    - `docker container run -v /Users/tony/stuff:/path/ container`
         - this works in mac/linux
 - In dockerfile-sample-2/
     - `docker container run -d --name nginx -p 80:80 -v $(pwd):/usr/share/nginx/html nginx`

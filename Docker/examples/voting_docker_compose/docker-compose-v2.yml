@@ -1,0 +1,29 @@
+# This is version 2, with some modification of v1:
+# 1. All the containers in this docker-compose will be assigned
+# with a same network, so links are not needed, only names are needed.
+# 2. You can now assign the order of the container being created.
+
+version: 2
+
+services:
+
+  redis:
+    image: redis
+
+  db:
+    image: postgres:9.4
+
+  vote:
+    build ./vote
+    ports:
+      - 5000:80
+    depends_on:
+      - redis
+
+  result:
+    image: result-app
+    ports:
+      - 5001:80
+
+  worker:
+    image: worker
