@@ -17,6 +17,7 @@ I love taking notes, here are some notes related to machine learning, deep learn
     - [Domain Adaptation](ML/domain_adaptation.md)
     - [Lightweight](ML/lightweight_techniques.md)
     - [Weakly and Semi-Supervised](ML/weakly_semi_supervised.md)
+    - [Self-Supervised Learning](ML/self_supervised_learning.md)
 
 
 ### MLOps
