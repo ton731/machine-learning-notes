@@ -14,8 +14,6 @@ class MiniDuckSimulator:
         red_head_duck.perform_quack()
         decoy_duck.perform_quack()
 
-        print("*"*20)
-
         rubber_duck.perform_fly()
         red_head_duck.perform_fly()
         decoy_duck.perform_fly()
