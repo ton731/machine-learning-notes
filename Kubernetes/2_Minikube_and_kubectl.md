@@ -23,16 +23,17 @@ minikube status
 kubectl version
 kubectl get nodes
 kubectl get pod
+kubectl get pod -o wide
 kubectl get services
 kubectl get replicaset
 kubectl get deployment
 ```
 
 ### Commands: CRUD (create, read, update, delete)
-- Pod is the smallest unit. BUT, you are creating Deploymeny, which is the abstraction over Pods
+- Pod is the smallest unit. BUT, you are creating Deployment, which is the abstraction over Pods
 - Deployment is the blueprint for creating pods, and is the most basic configuration for deployment.
 - Replicaset is managing the replicas of a Pod.
-- **Layers of Abstraction: Deployment manages a ReplicaSet. ReplicaSet manages a Pod. Pod is an abstraction of Container.**
+- **Layers of Abstraction: Deployment manages a ReplicaSet. ReplicaSet manages a set of Pods. Pod is an abstraction of Container.**
 ```bash
 # create deployment
 kubectl create deployment [name] --image=nginx
@@ -52,7 +53,8 @@ kubectl delete -f [file name]
 
 ### Commands: Debugging pods
 ```bash
-# log to console
+# log to console, it shows the logging printed by
+# the pod, and it's useful for debugging
 kubectl logs [pod name]
 
 # describe
